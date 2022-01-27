@@ -516,6 +516,8 @@ const app = {
             this.currentIndex = 0
             this.render()
             this.loadCurrentSong()
+            this.openConfig = true
+            this.endConfig = false
         }
         this.handleEvent() // Xử lý sự kiện
         repBtn.classList.toggle('active', this.isRepeat)
