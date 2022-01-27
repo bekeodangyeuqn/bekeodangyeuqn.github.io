@@ -93,8 +93,10 @@
     cursor: pointer;
   }
 
-  .control .btn:not(.btn-toggle-play):hover{
-    color: var(--primary-color);
+  @media (min-width: 1024px) {
+    .control .btn:not(.btn-toggle-play):hover{
+      color: var(--primary-color);
+    }
   }
   
   .control .btn.active {
