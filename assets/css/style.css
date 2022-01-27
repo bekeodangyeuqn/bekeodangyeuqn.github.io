@@ -261,14 +261,17 @@
     height: inherit;
     background-color: rgb(14, 166, 236);
   }
-  .box:not(.active):hover{
-    background-color: var(--primary-color);
-  }
 
+  @media (min-width: 1024px){
+    .box:not(.active):hover{
+      background-color: var(--primary-color);
+    }
+  }
+  
   .box.active{
     background-color: var(--primary-color);
     cursor: default;
-}
+  }
   .opening{
     
   }
