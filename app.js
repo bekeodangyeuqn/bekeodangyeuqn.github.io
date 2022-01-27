@@ -518,6 +518,8 @@ const app = {
             this.loadCurrentSong()
             this.openConfig = true
             this.endConfig = false
+            this.isRandom = false
+            this.isRepeat = false
         }
         this.handleEvent() // Xử lý sự kiện
         repBtn.classList.toggle('active', this.isRepeat)
