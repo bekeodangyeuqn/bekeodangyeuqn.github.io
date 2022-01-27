@@ -374,7 +374,7 @@ const app = {
                     _this.changeView()
                 }
                 if (e.target.closest('.option')){
-                    console.log(e.target)
+                    //console.log(e.target)
                 }
             }
         }
