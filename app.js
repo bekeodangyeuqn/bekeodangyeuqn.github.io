@@ -453,13 +453,13 @@ const app = {
     },
     // Method xu ly prev song
     prevSong(){
-        if (opening.closest('.active')) {
+        if (this.currentIndex2 < 0) {
             this.currentIndex--
             if (this.currentIndex < 0){
                 this.currentIndex = this.songs.length - 1
             }
             this.loadCurrentSong()
-        } else if (ending.closest('.active')){
+        } else if (this.currentIndex < 0){
             this.currentIndex2--
             if (this.currentIndex2 < 0){
                 this.currentIndex2 = this.songs2.length - 1
