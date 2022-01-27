@@ -291,7 +291,7 @@ const app = {
         // Khi thoi gian thay doi khi chay nhac
         audio.ontimeupdate = function(){
             if (audio.currentTime){
-               var progressPercent = Math.floor(audio.currentTime/audio.duration * 100)
+               var progressPercent = Math.floor(audio.currentTime/audio.duration * 500)
                 progress.value = progressPercent
                 var minutesCurrent = Math.floor(audio.currentTime / 60).toFixed(0)
                 var secondsCurrent = (audio.currentTime - minutesCurrent*60).toFixed(0)
@@ -317,13 +317,14 @@ const app = {
         }
         // Khi thay doi gia tri thanh chay
         progress.onchange = function(e){
-            var seekTime = audio.duration * e.target.value / 100
+            var seekTime = audio.duration * e.target.value / 500
             audio.currentTime = seekTime 
             // có bug là khi nhấn chậm thì value bị update đến value tiếp theo
             //chứ không phải value tại vị trí nhấn 
         }
         // Khi nhan nut next
         nextBtn.onclick = function(){
+            // Neu co random thi sau khi bam se random bai hat
             if (_this.isRandom){
                 _this.randSong()
                 audio.play()
@@ -347,6 +348,7 @@ const app = {
         }
         // Khi nhan nut Previous
         prevBtn.onclick = function(){
+            // Neu co random thi sau khi bam se random bai hat
             if (_this.isRandom){
                 _this.randSong()
                 audio.play()
@@ -354,7 +356,7 @@ const app = {
                 _this.prevSong()
                 audio.play()
             }
-            // Khi bai hat dang phat o list nao thi bai tiep theo se thuoc list do
+            // Khi bai hat dang phat o list nao thi bai tiep theo se thuoc list do va render ra list do
             if (_this.currentIndex2 < 0){
                 _this.render()
                 _this.changeView()
@@ -384,9 +386,6 @@ const app = {
             const songNode = e.target.closest('.song:not(.active)')
             if (songNode || e.target.closest('.option')){
                 if (songNode && !e.target.closest('.option')){
-                    // console.log(songNode)
-                    // console.log(ending.closest('.active'))
-                    // console.log(opening.closest('.active'))
                     if (opening.closest('.active')){
                         _this.currentIndex = Number(songNode.dataset.index)
                         _this.currentIndex2 = -1
@@ -415,7 +414,6 @@ const app = {
             _this.render()
             opening.classList.toggle('active',_this.openConfig)
             ending.classList.toggle('active',_this.endConfig)
-            //_this.loadCurrentSong()
         }
         ending.onclick = function(e){
             _this.openConfig = false
@@ -425,7 +423,6 @@ const app = {
             _this.render2()
             opening.classList.toggle('active',_this.openConfig)
             ending.classList.toggle('active',_this.endConfig)
-            //_this.loadCurrentSong2()
         }
     },
     // Load bai hat dau tien
@@ -438,12 +435,6 @@ const app = {
         heading.textContent = currentSong.name
         image.style.backgroundImage = `url(${currentSong.image})`
         audio.src = currentSong.path
-        // var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
-        // var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
-        // if (secondsDuration < 10){
-        //     durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
-        // } else
-        //     durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
     },
     loadCurrentSong2(){
         var currentSong2 = this.currentSong2
@@ -453,12 +444,6 @@ const app = {
         heading.textContent = currentSong2.name
         image.style.backgroundImage = `url(${currentSong2.image})`
         audio.src = currentSong2.path
-        var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
-        var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
-        if (secondsDuration < 10){
-            durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
-        } else
-            durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
     },
     // Load cac config trong local storage
     loadConfig(){
@@ -506,18 +491,19 @@ const app = {
     },
     // Method xu ly random song
     randSong(){
+        // Dang render o list nao thi bai tiep theo se random o list do
         if (opening.closest('.active')){
             let newIndex
             do {
                 newIndex = Math.floor(Math.random()*this.songs.length)
-            } while (newIndex === 0)
+            } while (newIndex === this.currentIndex)
             this.currentIndex = newIndex
             this.loadCurrentSong()
         } else if (ending.closest('.active')){
             let newIndex
             do {
                 newIndex = Math.floor(Math.random()*this.songs2.length)
-            } while (newIndex === 0)
+            } while (newIndex === this.currentIndex2)
             this.currentIndex2 = newIndex
             this.loadCurrentSong2()
         }
