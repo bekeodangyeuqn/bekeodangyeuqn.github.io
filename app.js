@@ -25,6 +25,7 @@ const ending = $('.ending-box')
 const app = {
     currentIndex: 0,
     currentIndex2: 0,
+    duration:0,
     songs : [
         {
             name: 'Last regrets',
@@ -262,28 +263,45 @@ const app = {
             _this.isPlaying = true
             play.classList.add('playing')
             imageRotate.play()
+            // _this.duration = audio.duration
+            var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
+            var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
+            if(this.duration){
+                if (secondsDuration < 10){
+                    durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
+                } else
+                    durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
+            } else {
+                durationTime.innerText = '00:00'
+            }
+        }
+        audio.onplaying = function(){
+            // _this.duration = audio.duration
+            var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
+            var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
+            if(this.duration){
+                if (secondsDuration < 10){
+                    durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
+                } else
+                    durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
+            } else {
+                durationTime.innerText = '00:00'
+            }
         }
         // Khi thoi gian thay doi khi chay nhac
         audio.ontimeupdate = function(){
             if (audio.currentTime){
                var progressPercent = Math.floor(audio.currentTime/audio.duration * 100)
                 progress.value = progressPercent
-                var minutesDuration = Math.floor(audio.duration / 60).toFixed(0)
-                var secondsDuration = (audio.duration - minutesDuration*60).toFixed(0)
                 var minutesCurrent = Math.floor(audio.currentTime / 60).toFixed(0)
                 var secondsCurrent = (audio.currentTime - minutesCurrent*60).toFixed(0)
-                //time.textContent= `${minutesCurrent}:${secondsCurrent}- ${minutesDuration}:${secondsDuration}`
                 if (audio.duration){
-                    if (secondsDuration < 10){
-                        durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
-                    } else
-                    durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
-                    if(secondsCurrent < 10){
-                        runTime.innerText = `0${minutesCurrent}:0${secondsCurrent}`
-                    } else if (secondsCurrent === 60){
-                        runTime.innerText = `0${minutesCurrent}:00}`
-                    } else
-                        runTime.innerText = `0${minutesCurrent}:${secondsCurrent}`
+                if(secondsCurrent < 10){
+                    runTime.innerText = `0${minutesCurrent}:0${secondsCurrent}`
+                } else if (secondsCurrent === 60){
+                    runTime.innerText = `0${minutesCurrent}:00}`
+                } else
+                    runTime.innerText = `0${minutesCurrent}:${secondsCurrent}`
                 } else {
                     durationTime.innerText = '00:00'
                     runTime.innerText = '00:00'
@@ -313,13 +331,18 @@ const app = {
                 _this.nextSong()
                 audio.play()
             }
+            // Khi bai hat dang phat o list nao thi bai tiep theo se thuoc list do
             if (_this.currentIndex2 < 0){
                 _this.render()
                 _this.changeView()
+                opening.classList.add('active')
+                ending.classList.remove('active')
             } 
             else if (_this.currentIndex < 0){
                 _this.render2()
                 _this.changeView()
+                opening.classList.remove('active')
+                ending.classList.add('active')
             }
         }
         // Khi nhan nut Previous
@@ -331,13 +354,18 @@ const app = {
                 _this.prevSong()
                 audio.play()
             }
+            // Khi bai hat dang phat o list nao thi bai tiep theo se thuoc list do
             if (_this.currentIndex2 < 0){
                 _this.render()
                 _this.changeView()
+                opening.classList.add('active')
+                ending.classList.remove('active')
             } 
             else if (_this.currentIndex < 0){
                 _this.render2()
                 _this.changeView()
+                opening.classList.remove('active')
+                ending.classList.add('active')
             }
         }
         // Khi nhan nut Random
@@ -367,6 +395,7 @@ const app = {
                     } else
                     if (ending.closest('.active')){
                         _this.currentIndex2 = Number(songNode.dataset.index)
+                        _this.currentIndex = -1
                        _this.render2()
                        _this.loadCurrentSong2()
                     }
@@ -409,19 +438,27 @@ const app = {
         heading.textContent = currentSong.name
         image.style.backgroundImage = `url(${currentSong.image})`
         audio.src = currentSong.path
-        //audio.play()
+        // var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
+        // var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
+        // if (secondsDuration < 10){
+        //     durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
+        // } else
+        //     durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
     },
     loadCurrentSong2(){
         var currentSong2 = this.currentSong2
         this.setConfig('currentIndex2',this.currentIndex2)
         this.setConfig('currentIndex',this.currentIndex)
-        //console.log(heading,{image},audio,currentSong)
-        //console.log(currentSong2)
         this.currentIndex = -1
         heading.textContent = currentSong2.name
         image.style.backgroundImage = `url(${currentSong2.image})`
         audio.src = currentSong2.path
-        //audio.play()
+        var minutesDuration = Math.floor(this.duration / 60).toFixed(0)
+        var secondsDuration = (this.duration - minutesDuration*60).toFixed(0)
+        if (secondsDuration < 10){
+            durationTime.innerText = `0${minutesDuration}:0${secondsDuration}`
+        } else
+            durationTime.innerText = `0${minutesDuration}:${secondsDuration}`
     },
     // Load cac config trong local storage
     loadConfig(){
@@ -496,19 +533,9 @@ const app = {
         })
     },
 
-    // changeAciveSong(){
-
-    // },
-    // repeatSong(){
-    //     audio.loop = true
-    // },
     start() {
         this.loadConfig() // Load cac config tu local storage
         this.defineProperties() // Định nghĩa các property // Khởi tạo
-        // if (opening.closest('.active') === null && ending.closest('.active') === null){
-        //     opening.classList.add('active')
-        // }
-        //
         if (this.openConfig){
             if (this.currentIndex >= 0){
                 this.render()
@@ -541,7 +568,6 @@ const app = {
         randBtn.classList.toggle('active', this.isRandom)
         opening.classList.toggle('active',this.openConfig)
         ending.classList.toggle('active',this.endConfig)
-        //console.log(this.currentSong2)
     }
 }
 
