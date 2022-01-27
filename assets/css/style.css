@@ -179,9 +179,11 @@
       cursor: pointer;
   }
 
-  .song:not(.active):hover{
-    background-color: #26045c;
-    color: #fff;
+  @media (min-width: 1024px){
+    .song:not(.active):hover{
+      background-color: #26045c;
+      color: #fff;
+    }
   }
 
   .song:not(.active):hover .option{

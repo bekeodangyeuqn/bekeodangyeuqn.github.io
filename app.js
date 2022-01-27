@@ -313,8 +313,14 @@ const app = {
                 _this.nextSong()
                 audio.play()
             }
-            _this.render()
-            _this.changeView()
+            if (_this.openConfig){
+                _this.render()
+                _this.changeView()
+            } 
+            else if (_this.endConfig){
+                _this.render2()
+                _this.changeView()
+            }
         }
         // Khi nhan nut Previous
         prevBtn.onclick = function(){
@@ -325,8 +331,14 @@ const app = {
                 _this.prevSong()
                 audio.play()
             }
-            _this.render()
-            _this.changeView()
+            if (_this.openConfig){
+                _this.render()
+                _this.changeView()
+            } 
+            else if (_this.endConfig){
+                _this.render2()
+                _this.changeView()
+            }
         }
         // Khi nhan nut Random
         randBtn.onclick = function(){
@@ -355,7 +367,6 @@ const app = {
                     } else
                     if (ending.closest('.active')){
                         _this.currentIndex2 = Number(songNode.dataset.index)
-                        _this.currentIndex = -1
                        _this.render2()
                        _this.loadCurrentSong2()
                     }
@@ -394,6 +405,7 @@ const app = {
         this.setConfig('currentIndex',this.currentIndex)
         this.setConfig('currentIndex2',this.currentIndex2)
         //console.log(heading,{image},audio,currentSong)
+        this.currentIndex2 = -1
         heading.textContent = currentSong.name
         image.style.backgroundImage = `url(${currentSong.image})`
         audio.src = currentSong.path
@@ -405,6 +417,7 @@ const app = {
         this.setConfig('currentIndex',this.currentIndex)
         //console.log(heading,{image},audio,currentSong)
         //console.log(currentSong2)
+        this.currentIndex = -1
         heading.textContent = currentSong2.name
         image.style.backgroundImage = `url(${currentSong2.image})`
         audio.src = currentSong2.path
@@ -426,6 +439,7 @@ const app = {
             if (this.currentIndex >= this.songs.length){
                 this.currentIndex = 0
             }
+            this.currentIndex2 = -1
             this.loadCurrentSong()
         }
         else if (ending.closest('.active')){
@@ -433,6 +447,7 @@ const app = {
             if (this.currentIndex2 >= this.songs2.length){
                 this.currentIndex2 = 0
             }
+            this.currentIndex = -1
             this.loadCurrentSong2()
         }
     },
