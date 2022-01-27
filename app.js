@@ -313,11 +313,11 @@ const app = {
                 _this.nextSong()
                 audio.play()
             }
-            if (_this.openConfig){
+            if (_this.currentIndex2 < 0){
                 _this.render()
                 _this.changeView()
             } 
-            else if (_this.endConfig){
+            else if (_this.currentIndex < 0){
                 _this.render2()
                 _this.changeView()
             }
@@ -331,11 +331,11 @@ const app = {
                 _this.prevSong()
                 audio.play()
             }
-            if (_this.openConfig){
+            if (_this.currentIndex2 < 0){
                 _this.render()
                 _this.changeView()
             } 
-            else if (_this.endConfig){
+            else if (_this.currentIndex < 0){
                 _this.render2()
                 _this.changeView()
             }
@@ -434,7 +434,7 @@ const app = {
     },
     // Method xu ly next song
     nextSong(){
-        if (opening.closest('.active')) {
+        if (this.currentIndex2 < 0) {
             this.currentIndex++
             if (this.currentIndex >= this.songs.length){
                 this.currentIndex = 0
@@ -442,7 +442,7 @@ const app = {
             this.currentIndex2 = -1
             this.loadCurrentSong()
         }
-        else if (ending.closest('.active')){
+        else if (this.currentIndex < 0){
             this.currentIndex2++
             if (this.currentIndex2 >= this.songs2.length){
                 this.currentIndex2 = 0
