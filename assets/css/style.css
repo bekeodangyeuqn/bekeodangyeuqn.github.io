@@ -184,18 +184,17 @@
       background-color: #26045c;
       color: #fff;
     }
-  }
-
-  .song:not(.active):hover .option{
-    color: #fff;
-  }
-
-  .song:not(.active):hover .title{
-    color: #fff;
-  }
-
-  .song:not(.active):hover .author{
-    color: #fff;
+    .song:not(.active):hover .option{
+      color: #fff;
+    }
+  
+    .song:not(.active):hover .title{
+      color: #fff;
+    }
+  
+    .song:not(.active):hover .author{
+      color: #fff;
+    }
   }
   
   .song.active {
