@@ -522,7 +522,7 @@ const app = {
     start() {
         this.loadConfig() // Load cac config tu local storage
         this.defineProperties() // Định nghĩa các property // Khởi tạo
-        if (this.openConfig){
+        if (this.openConfig){ 
             if (this.currentIndex >= 0){
                 this.render()
                 this.loadCurrentSong()
